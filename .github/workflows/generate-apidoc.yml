@@ -1,0 +1,22 @@
+name: generate openapi documentation
+
+on: push
+
+jobs:
+  apidoc:
+    name: Generate OpenAPI Documentation
+    runs-on: ubuntu-latest
+    container:
+      image: openjdk:11.0.7
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Execute build openAPI definition file
+        run: ./gradlew generateOpenApiDocs
+      - name: Execute generate swagger ui
+        run: ./gradlew generateSwaggerUIPetstore
+      - name: Deploy Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/swagger-ui-petstore

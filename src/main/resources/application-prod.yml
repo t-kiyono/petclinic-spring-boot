@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/petclinic
+    driver-class-name: org.postgresql.Driver
+    username: petclinic
+    password: petclinic
+  flyway:
+    locations: classpath:/prod/db/migration

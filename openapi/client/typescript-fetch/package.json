@@ -1,0 +1,34 @@
+{
+  "name": "@t-kiyono/petclinic-client-ts-fetch",
+  "version": "0.0.2",
+  "description": "PetClinic OpenAPI Client by typescript-fetch",
+  "main": "./codegen/dist/index.js",
+  "types": "./codegen/dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf codegen",
+    "openapi": "openapi-generator generate -i ../../openapi.json -o codegen -g typescript-fetch",
+    "tsc": "tsc -p codegen",
+    "build": "npm run openapi && npm run tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "t-kiyono <t-kiyono@be-geek.net>",
+  "license": "MIT",
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "0.0.19-4.1.2",
+    "rimraf": "^3.0.2",
+    "typescript": "~3.5.3"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/t-kiyono/petclinic-spring-boot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/t-kiyono/petclinic-spring-boot/issues"
+  },
+  "homepage": "https://github.com/t-kiyono/petclinic-spring-boot#readme"
+}

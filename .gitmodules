@@ -1,0 +1,3 @@
+[submodule "src/front-end"]
+	path = src/front-end
+	url = git@github.com:t-kiyono/petclinic-ui-react.git

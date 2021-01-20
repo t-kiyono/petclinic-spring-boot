@@ -1,0 +1,5 @@
+.gradle
+build/
+.idea
+src/main/resources/static/**/*
+!src/main/resources/static/.keep

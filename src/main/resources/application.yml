@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: dev
+  cache:
+    cache-names: ownersCache,petsCache,visitsCache,vetsCache
+    caffeine:
+      spec:

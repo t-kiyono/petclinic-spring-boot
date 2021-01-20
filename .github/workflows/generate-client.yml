@@ -1,0 +1,46 @@
+name: generate openapi client
+
+on: workflow_dispatch
+
+jobs:
+  openapi:
+    name: Build OpenAPI Definition
+    runs-on: ubuntu-latest
+    container:
+      image: openjdk:11.0.7
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Execute build openAPI definition file
+        run: ./gradlew generateOpenApiDocs
+      - name: Upload openapi.json
+        uses: actions/upload-artifact@v1
+        with:
+          name: openapi
+          path: build/openapi.json
+  build:
+    name: Generate OpenAPI Client
+    needs: openapi
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Download openapi.json
+        uses: actions/download-artifact@v1
+        with:
+          name: openapi
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@t-kiyono'
+      - name: Publish package
+        run: |
+          cd openapi/client/typescript-fetch
+          npm install
+          npm run build
+          touch codegen/.npmignore
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
