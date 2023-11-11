@@ -1,0 +1,68 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.1.5'
+    id 'io.spring.dependency-management' version '1.1.3'
+    id 'org.openapi.generator' version '7.0.1'
+}
+
+group = 'net.devfit'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '21'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    compileOnly 'javax.annotation:javax.annotation-api:1.3.2'
+    compileOnly 'io.swagger.core.v3:swagger-annotations:2.2.18'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+ext {
+    openApiOutputDir = "$rootDir/generated"
+}
+
+sourceSets.main.java.srcDirs += ["$openApiOutputDir/src/main/java"]
+
+openApiGenerate {
+    generatorName = 'spring'
+    inputSpec = "$rootDir/src/spec/openapi.yaml"
+    outputDir = "$openApiOutputDir"
+    apiPackage = 'net.devfit.petclinic.controller.api'
+    modelPackage = 'net.devfit.petclinic.domain.model'
+    configOptions = [
+            dateLibrary: 'java8',
+            interfaceOnly: 'true',
+            skipDefaultInterface: 'true',
+            useTags: 'true',
+    ]
+}
+
+compileJava.dependsOn tasks.openApiGenerate

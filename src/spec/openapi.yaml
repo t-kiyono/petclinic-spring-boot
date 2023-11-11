@@ -1,0 +1,808 @@
+openapi: '3.1.0'
+info:
+  description: RESTful API of PetClinic
+  version: V1
+  title: PetClinic API
+  contact: {}
+  license:
+    name: WTFPL
+    url: 'http://www.wtfpl.net/'
+tags:
+  - name: owners-controller
+    description: Owners Controller
+  - name: pet-types-controller
+    description: Pet Types Controller
+  - name: pets-controller
+    description: Pets Controller
+  - name: specialties-controller
+    description: Specialties Controller
+  - name: vets-controller
+    description: Vets Controller
+  - name: visits-controller
+    description: Visits Controller
+paths:
+  /api/owners:
+    get:
+      tags:
+        - owners-controller
+      summary: Finds Owners by LastName
+      operationId: queryOwners
+      parameters:
+        - name: lastName
+          in: query
+          description: lastName
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Owner'
+      deprecated: false
+    post:
+      tags:
+        - owners-controller
+      summary: Create Owner
+      operationId: createOwner
+      requestBody:
+        description: owner
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Owner'
+      responses:
+        '200':
+          description: OK
+          content:
+            applicatoin/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+      deprecated: false
+  '/api/owners/{ownerId}':
+    get:
+      tags:
+        - owners-controller
+      summary: Find Owner by id
+      operationId: showOwner
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+        '404':
+          description: Owner not found
+      deprecated: false
+    put:
+      tags:
+        - owners-controller
+      summary: Update Owner
+      operationId: updateOwner
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: owner
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Owner'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+      deprecated: false
+    delete:
+      tags:
+        - owners-controller
+      summary: Delete Owner
+      operationId: deleteOwner
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+      deprecated: false
+  '/api/owners/{ownerId}/pets':
+    get:
+      tags:
+        - pets-controller
+      summary: Finds Pets by Owner id
+      operationId: queryPets
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      deprecated: false
+    post:
+      tags:
+        - pets-controller
+      summary: Create Pet
+      operationId: createPet
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: pet
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+      deprecated: false
+  '/api/owners/{ownerId}/pets/{petId}':
+    get:
+      tags:
+        - pets-controller
+      summary: Find Pet by ownerId and petId
+      operationId: showPet
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: petId
+          in: path
+          description: petId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          description: Pet not found
+      deprecated: false
+    put:
+      tags:
+        - pets-controller
+      summary: Update Pet
+      operationId: updatePet
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: petId
+          in: path
+          description: petId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: pet
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+      deprecated: false
+    delete:
+      tags:
+        - pets-controller
+      summary: Delete Pet
+      operationId: deletePet
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: petId
+          in: path
+          description: petId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+      deprecated: false
+  '/api/owners/{ownerId}/pets/{petId}/visits':
+    get:
+      tags:
+        - visits-controller
+      summary: Finds Visits by ownerId and petId
+      operationId: queryVisits
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: petId
+          in: path
+          description: petId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Visit'
+      deprecated: false
+    post:
+      tags:
+        - visits-controller
+      summary: Create Visit
+      operationId: createVisit
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: petId
+          in: path
+          description: petId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: visit
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Visit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Visit'
+      deprecated: false
+  '/api/owners/{ownerId}/pets/{petId}/visits/{visitId}':
+    get:
+      tags:
+        - visits-controller
+      summary: Find Visit by ownerId and petId and visitId
+      operationId: showVisit
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: petId
+          in: path
+          description: petId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: visitId
+          in: path
+          description: visitId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Visit'
+        '404':
+          description: Visit not found
+      deprecated: false
+    put:
+      tags:
+        - visits-controller
+      summary: Update Visit
+      operationId: updateVisit
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: petId
+          in: path
+          description: petId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: visitId
+          in: path
+          description: visitId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: visit
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Visit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Visit'
+      deprecated: false
+    delete:
+      tags:
+        - visits-controller
+      summary: Delete Visit
+      operationId: deleteVisit
+      parameters:
+        - name: ownerId
+          in: path
+          description: ownerId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: petId
+          in: path
+          description: petId
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: visitId
+          in: path
+          description: visitId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+      deprecated: false
+  /api/specialties:
+    get:
+      tags:
+        - specialties-controller
+      summary: Finds Specialties
+      operationId: querySpecialties
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Specialty'
+      deprecated: false
+    post:
+      tags:
+        - specialties-controller
+      summary: Create Specialty
+      operationId: createSpecialty
+      requestBody:
+        description: specialty
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Specialty'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Specialty'
+      deprecated: false
+  '/api/specialties/{specialtyId}':
+    get:
+      tags:
+        - specialties-controller
+      summary: Find Specialty by id
+      operationId: showSpecialty
+      parameters:
+        - name: specialtyId
+          in: path
+          description: specialtyId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Specialty'
+        '404':
+          description: Specialty not found
+      deprecated: false
+    put:
+      tags:
+        - specialties-controller
+      summary: Update Specialty
+      operationId: updateSpecialty
+      parameters:
+        - name: specialtyId
+          in: path
+          description: specialtyId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: specialty
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Specialty'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Specialty'
+      deprecated: false
+    delete:
+      tags:
+        - specialties-controller
+      summary: Delete Specialty
+      operationId: deleteSpecialty
+      parameters:
+        - name: specialtyId
+          in: path
+          description: specialtyId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+      deprecated: false
+  /api/types:
+    get:
+      tags:
+        - pet-types-controller
+      summary: Finds PetTypes
+      operationId: queryPetTypes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetType'
+      deprecated: false
+  /api/veterinarians:
+    get:
+      tags:
+        - vets-controller
+      summary: Finds Veterinarians
+      operationId: queryVets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vet'
+      deprecated: false
+    post:
+      tags:
+        - vets-controller
+      summary: Create Veterinarian
+      operationId: createVet
+      requestBody:
+        description: vet
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vet'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vet'
+      deprecated: false
+  '/api/veterinarians/{vetId}':
+    get:
+      tags:
+        - vets-controller
+      summary: Find Veterinarian by id
+      operationId: showVet
+      parameters:
+        - name: vetId
+          in: path
+          description: vetId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vet'
+        '404':
+          description: Veterinarian not found
+      deprecated: false
+    put:
+      tags:
+        - vets-controller
+      summary: Update Veterinarian
+      operationId: updateVet
+      parameters:
+        - name: vetId
+          in: path
+          description: vetId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: vet
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vet'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vet'
+      deprecated: false
+    delete:
+      tags:
+        - vets-controller
+      summary: Delete Veterinarian
+      operationId: deleteVet
+      parameters:
+        - name: vetId
+          in: path
+          description: vetId
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+      deprecated: false
+components:
+  schemas:
+    Owner:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - address
+        - city
+        - telephone
+      properties:
+        id:
+          type: integer
+          format: int32
+        firstName:
+          type: string
+          example: George
+        lastName:
+          type: string
+          example: Franklin
+        address:
+          type: string
+          example: 110 W. Liberty St.
+        city:
+          type: string
+          example: Madison
+        telephone:
+          type: string
+          example: 6085551023
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+      title: Owner
+    Pet:
+      type: object
+      required:
+        - ownerId
+        - name
+        - birthDate
+        - type
+      properties:
+        id:
+          type: integer
+          format: int32
+        ownerId:
+          type: integer
+          format: int32
+        name:
+          type: string
+          example: Leo
+        birthDate:
+          type: string
+          format: date
+          example: '2010-09-07'
+        type:
+          $ref: '#/components/schemas/PetType'
+        visits:
+          type: array
+          items:
+            $ref: '#/components/schemas/Visit'
+      title: Pet
+    PetType:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          example: cat
+      title: PetType
+    Visit:
+      type: object
+      required:
+        - petId
+        - description
+        - visitDate
+      properties:
+        id:
+          type: integer
+          format: int32
+        petId:
+          type: integer
+          format: int32
+        description:
+          type: string
+          example: rabies shot
+        visitDate:
+          type: string
+          format: date
+          example: '2013-01-01'
+      title: Visit
+    Vet:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - specialties
+      properties:
+        id:
+          type: integer
+          format: int32
+        firstName:
+          type: string
+          example: James
+        lastName:
+          type: string
+          example: Carter
+        specialties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Specialty'
+      title: Vet
+    Specialty:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          example: radiology
+      title: Specialty
