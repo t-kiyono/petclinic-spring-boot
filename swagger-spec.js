@@ -492,6 +492,55 @@ window.swaggerSpec={
         "tags" : [ "visits-controller" ]
       }
     },
+    "/api/specialties" : {
+      "post" : {
+        "summary" : "Create Specialty",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Specialty"
+              }
+            }
+          },
+          "required" : true
+        },
+        "operationId" : "createSpecialty",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Specialty"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "specialties-controller" ]
+      },
+      "get" : {
+        "summary" : "Finds Specialties",
+        "operationId" : "querySpecialties",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Specialty"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "specialties-controller" ]
+      }
+    },
     "/api/veterinarians/{vetId}" : {
       "get" : {
         "summary" : "Find Veterinarian by id",
@@ -583,55 +632,6 @@ window.swaggerSpec={
           "required" : true
         } ],
         "tags" : [ "vets-controller" ]
-      }
-    },
-    "/api/specialties" : {
-      "post" : {
-        "summary" : "Create Specialty",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Specialty"
-              }
-            }
-          },
-          "required" : true
-        },
-        "operationId" : "createSpecialty",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Specialty"
-                }
-              }
-            }
-          }
-        },
-        "tags" : [ "specialties-controller" ]
-      },
-      "get" : {
-        "summary" : "Finds Specialties",
-        "operationId" : "querySpecialties",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Specialty"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags" : [ "specialties-controller" ]
       }
     },
     "/api/owners/{ownerId}" : {
@@ -923,28 +923,6 @@ window.swaggerSpec={
         "tags" : [ "specialties-controller" ]
       }
     },
-    "/api/types" : {
-      "get" : {
-        "summary" : "Finds PetTypes",
-        "operationId" : "queryPetTypes",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/PetType"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags" : [ "pet-types-controller" ]
-      }
-    },
     "/api/owners" : {
       "post" : {
         "summary" : "Create Owner",
@@ -1000,6 +978,28 @@ window.swaggerSpec={
           "required" : false
         } ],
         "tags" : [ "owners-controller" ]
+      }
+    },
+    "/api/types" : {
+      "get" : {
+        "summary" : "Finds PetTypes",
+        "operationId" : "queryPetTypes",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PetType"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "pet-types-controller" ]
       }
     }
   },
